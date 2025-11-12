@@ -11,8 +11,8 @@
 </template>
 
 <script>
-import axios from 'axios';
-import Global from '@/Global';
+import ServiceEmpleados from '@/services/serviceempleados';
+const service = new ServiceEmpleados();
 export default {
 data(){
     return{
@@ -24,11 +24,13 @@ data(){
 },
 methods:{
     login(){
-        let apiUrl=Global.apiEmpleados;
-        let request="auth/login";
-        axios.post(apiUrl+request,this.persona).then(response=>{
-            console.log(response.response);
+        service.login(this.persona).then(response=>{
+            console.log("Entrando..");
+            service.saveToken(response.data.response);
+            console.log(response.data.response);
+            this.$router.push('/home');
         })
+
     }
 }
 }
